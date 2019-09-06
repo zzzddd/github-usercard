@@ -53,3 +53,105 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+// const axios = require("axios");
+
+// Make a request for a user with a given ID
+
+// console.log(axios.get("https://api.github.com/users/zzzddd"));
+const cotainer = document.querySelector(".container");
+axios
+  .get("https://api.github.com/users/zzzddd")
+  .then(response => {
+    console.log(response.data);
+    cotainer.appendChild(createCard(response.data));
+  })
+  .catch(err => {
+    console.log("Network fall!!!!!");
+    console.log(err);
+  });
+function createCard(data) {
+  const card = document.createElement("div"),
+    img = document.createElement("img"),
+    name = document.createElement("h3"),
+    cardInfo = document.createElement("div"),
+    userName = document.createElement("p"),
+    location = document.createElement("p"),
+    profile = document.createElement("p"),
+    address = document.createElement("a"),
+    followers = document.createElement("p"),
+    following = document.createElement("p"),
+    bio = document.createElement("p");
+
+  //Setup structure of elements
+  card.appendChild(img);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(address);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+
+  cardInfo.appendChild(bio);
+
+  // set class names
+  card.classList.add("card");
+  name.classList.add("name");
+  userName.classList.add("username");
+
+  img.src = `${data.avatar_url}`;
+  name.textContent = `${data.name}`;
+  userName.textContent = `${data.login}`;
+  location.textContent = `${data.location}`;
+  profile.textContent = `${data.html_url}`;
+  address.href = `${data.html_url}`;
+  address.textContent = `${data.html_url}`;
+  followers.textContent = `Followers:${data.followers}`;
+  following.textContent = `Following: ${data.following}`;
+  bio.textContent = `Bio:${data.bio}`;
+
+  return card;
+}
+
+
+axios
+  .get("https://api.github.com/users/tetondan")
+  .then(response => {
+    console.log(response.data);
+    cotainer.appendChild(createCard(response.data));
+  })
+  .catch(err => {
+    console.log("Network fall!!!!!");
+    console.log(err);
+  });
+  axios
+    .get("https://api.github.com/users/bigknell")
+    .then(response => {
+      console.log(response.data);
+      cotainer.appendChild(createCard(response.data));
+    })
+    .catch(err => {
+      console.log("Network fall!!!!!");
+      console.log(err);
+    });
+
+axios
+  .get("https://api.github.com/users/zzzddd/followers")
+  .then(response => {
+    console.log(response.data);
+   
+    for(let i=0;i<6;i++){
+     followersArray.push(response.data[i].login);
+    }
+    
+     console.log(response.data[0].login);
+        console.log(followersArray);
+
+  })
+  .catch(err => {
+    console.log("Network fall!!!!!");
+    console.log(err);
+  });
+    
